@@ -23,7 +23,7 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
-const dbUrl = process.env.ATLASDB_URL;
+const dburl = process.env.ATLASDB_URL;
 
 // const { statSync } = require("fs");
 // const reviews = require("./models/reviews.js");
@@ -36,7 +36,7 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(mongo_url);
+  await mongoose.connect(dburl);
 }
 
 app.set("view engine", "ejs");
@@ -47,7 +47,7 @@ app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 const store = MongoStore.create({
-    mongoUrl : dbUrl,
+    mongoUrl : dburl,
     crypto: {
         secret: process.env.SECRET,      
     },
