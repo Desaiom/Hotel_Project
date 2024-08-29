@@ -20,6 +20,7 @@ body {
 
 .nav-link {
   color: #222222 !important;
+  /* margin-left: 1rem; */
 }
 
 /* Footer */
@@ -97,6 +98,7 @@ body {
 .card-hover:hover {
   opacity: 0.7;
   background-color: white;
+  text-decoration: underline;
 
 }
 .add-btn .edit-btn {
