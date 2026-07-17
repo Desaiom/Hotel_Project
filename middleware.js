@@ -1,5 +1,5 @@
 const Listing = require("./models/listing");
-const { listingSchema ,reviewSchema} = require("./schema.js");
+const { listingSchema ,reviewSchema, listingQuerySchema } = require("./schema.js");
 const ExpressError = require("./utils/ExpressErr.js");
 const Review = require("./models/reviews.js");
 
@@ -45,6 +45,16 @@ module.exports.validateReview = (req,res,next)=>{
         let errMsg = error.details.map((el)=> el.message).join(",");
         throw new ExpressError(400,errMsg);
     }else {
+        next();
+    }
+};
+
+module.exports.validateListingQuery = (req, res, next) => {
+    const { error } = listingQuerySchema.validate(req.query, { abortEarly: false });
+    if (error) {
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    } else {
         next();
     }
 };

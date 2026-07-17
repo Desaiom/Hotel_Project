@@ -22,6 +22,11 @@
           </p>
           <p class="card-text details_info"><%= listing.location %> </p>
           <p class="card-text details_info"><%= listing.country %> </p>
+          <% if(currUser){ %>
+          <a href="/listings/<%= listing._id %>/book" class="btn btn-success mt-3">Book Now</a>
+          <% } else { %>
+          <a href="/login" class="btn btn-outline-dark mt-3">Login</a>
+          <% } %>
         </div>
         </div>
         <br>

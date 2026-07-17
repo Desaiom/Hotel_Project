@@ -1,0 +1,152 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .profile-shell {
+    max-width: 1100px;
+    margin: 2rem auto;
+  }
+
+  .profile-card {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 1.25rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .profile-hero {
+    background: linear-gradient(135deg, #ff5a5f, #ff7a7f);
+    color: white;
+    padding: 2rem;
+  }
+
+  .avatar-wrap {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid rgba(255, 255, 255, 0.9);
+    background: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .avatar-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .stat-box {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 1rem;
+    padding: 1rem;
+    background: #fff;
+    min-height: 110px;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #222;
+  }
+
+  .stat-label {
+    color: #717171;
+    font-size: 0.95rem;
+  }
+
+  .profile-actions .btn {
+    border-radius: 999px;
+    padding: 0.75rem 1.2rem;
+    font-weight: 600;
+  }
+</style>
+
+<div class="profile-shell">
+  <div class="profile-card">
+    <div class="profile-hero">
+      <div class="row align-items-center g-4">
+        <div class="col-md-3 text-center">
+          <div class="avatar-wrap mx-auto">
+            <% if (user.avatar && user.avatar.url) { %>
+              <img src="<%= user.avatar.url %>" alt="Profile avatar" />
+            <% } else { %>
+              <i class="fa-solid fa-user fa-4x text-secondary"></i>
+            <% } %>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <h2 class="mb-2">
+            <%= user.fullName || user.username %>
+          </h2>
+          <p class="mb-2 opacity-75">
+            <i class="fa-solid fa-at me-2"></i><%= user.username %>
+          </p>
+          <p class="mb-0">
+            <%= user.bio ? user.bio : "Tell travelers a little about yourself." %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4 p-md-5">
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <div class="border rounded-4 p-4 h-100">
+            <h5 class="fw-bold mb-3">Contact Details</h5>
+            <p class="mb-2">
+              <i class="fa-solid fa-phone me-2 text-danger"></i>
+              <%= user.phone ? user.phone : "No phone number added" %>
+            </p>
+            <p class="mb-0">
+              <i class="fa-solid fa-location-dot me-2 text-danger"></i>
+              <%= user.location ? user.location : "Location not added" %>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="border rounded-4 p-4 h-100">
+            <h5 class="fw-bold mb-3">Quick Statistics</h5>
+            <div class="row g-3">
+              <div class="col-4">
+                <div class="stat-box text-center">
+                  <div class="stat-number"><%= user.listings ? user.listings.length : 0 %></div>
+                  <div class="stat-label">Listings</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="stat-box text-center">
+                  <div class="stat-number"><%= user.bookingsMade ? user.bookingsMade.length : 0 %></div>
+                  <div class="stat-label">Bookings</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="stat-box text-center">
+                  <div class="stat-number"><%= user.reviews ? user.reviews.length : 0 %></div>
+                  <div class="stat-label">Reviews</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-actions d-flex flex-wrap gap-2">
+        <a href="/profile/edit" class="btn btn-outline-dark">
+          <i class="fa-solid fa-pen-to-square me-2"></i>Edit Profile
+        </a>
+        <a href="/profile/listings" class="btn btn-outline-dark">
+          <i class="fa-solid fa-house me-2"></i>My Listings
+        </a>
+        <a href="/profile/bookings" class="btn btn-outline-dark">
+          <i class="fa-solid fa-calendar-check me-2"></i>My Bookings
+        </a>
+        <a href="/profile/reviews" class="btn btn-outline-dark">
+          <i class="fa-solid fa-star me-2"></i>My Reviews
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

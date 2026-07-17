@@ -1,0 +1,67 @@
+<div class="card shadow-sm border-0 rounded-4">
+  <div class="card-body p-3">
+    <div class="accordion" id="filterAccordion">
+      <div class="accordion-item border-0">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button collapsed px-0"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseFilters"
+            aria-expanded="false"
+            aria-controls="collapseFilters"
+          >
+            <strong>Filters</strong>
+          </button>
+        </h2>
+        <div id="collapseFilters" class="accordion-collapse collapse show" data-bs-parent="#filterAccordion">
+          <div class="accordion-body px-0 pt-2">
+            <form action="/listings" method="GET" class="row g-3">
+              <input type="hidden" name="search" value="<%= typeof search !== 'undefined' ? search : '' %>" />
+              <div class="col-12">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-select" id="category" name="category">
+                  <option value="">Any</option>
+                  <option value="Beach House" <%= typeof category !== 'undefined' && category === 'Beach House' ? 'selected' : '' %>>Beach House</option>
+                  <option value="Mountain Cabin" <%= typeof category !== 'undefined' && category === 'Mountain Cabin' ? 'selected' : '' %>>Mountain Cabin</option>
+                  <option value="City Stay" <%= typeof category !== 'undefined' && category === 'City Stay' ? 'selected' : '' %>>City Stay</option>
+                  <option value="Villa" <%= typeof category !== 'undefined' && category === 'Villa' ? 'selected' : '' %>>Villa</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label for="minPrice" class="form-label">Min Price</label>
+                <input type="number" class="form-control" id="minPrice" name="minPrice" min="0" placeholder="0" value="<%= typeof minPrice !== 'undefined' ? minPrice : '' %>" />
+              </div>
+
+              <div class="col-md-6">
+                <label for="maxPrice" class="form-label">Max Price</label>
+                <input type="number" class="form-control" id="maxPrice" name="maxPrice" min="0" placeholder="5000" value="<%= typeof maxPrice !== 'undefined' ? maxPrice : '' %>" />
+              </div>
+
+              <div class="col-12">
+                <label for="maxGuests" class="form-label">Guests</label>
+                <input type="number" class="form-control" id="maxGuests" name="maxGuests" min="1" placeholder="2" value="<%= typeof maxGuests !== 'undefined' ? maxGuests : '' %>" />
+              </div>
+
+              <div class="col-12">
+                <label for="sort" class="form-label">Sort</label>
+                <select class="form-select" id="sort" name="sort">
+                  <option value="" <%= typeof sort === 'undefined' || sort === '' ? 'selected' : '' %>>Default</option>
+                  <option value="price_asc" <%= typeof sort !== 'undefined' && sort === 'price_asc' ? 'selected' : '' %>>Price: Low to High</option>
+                  <option value="price_desc" <%= typeof sort !== 'undefined' && sort === 'price_desc' ? 'selected' : '' %>>Price: High to Low</option>
+                  <option value="newest" <%= typeof sort !== 'undefined' && sort === 'newest' ? 'selected' : '' %>>Newest</option>
+                  <option value="highest_rating" <%= typeof sort !== 'undefined' && sort === 'highest_rating' ? 'selected' : '' %>>Highest Rated</option>
+                </select>
+              </div>
+
+              <div class="col-12 d-grid">
+                <button type="submit" class="btn btn-dark">Apply Filters</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

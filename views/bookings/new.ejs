@@ -1,0 +1,104 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container py-4">
+  <div class="row g-4 justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-sm border-0">
+        <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem; object-fit: cover;">
+        <div class="card-body">
+          <h3 class="card-title mb-3"><%= listing.title %></h3>
+          <p class="text-muted mb-0">Price per night: ₹<%= listing.price.toLocaleString("en-IN") %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h4 class="card-title mb-4">Book Your Stay</h4>
+          <form action="/listings/<%= listing._id %>/bookings" method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="checkIn" class="form-label">Check-in Date</label>
+              <input type="date" class="form-control" id="checkIn" name="booking[checkIn]" required>
+              <div class="invalid-feedback">Please select a check-in date.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="checkOut" class="form-label">Check-out Date</label>
+              <input type="date" class="form-control" id="checkOut" name="booking[checkOut]" required>
+              <div class="invalid-feedback">Please select a check-out date.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="guests" class="form-label">Number of Guests</label>
+              <input type="number" class="form-control" id="guests" name="booking[guests]" min="1" value="1" required>
+              <div class="invalid-feedback">Please enter at least 1 guest.</div>
+            </div>
+
+            <div class="card bg-light mt-4">
+              <div class="card-body">
+                <h5 class="card-title">Price Summary</h5>
+                <div class="d-flex justify-content-between mt-3">
+                  <span>Nights</span>
+                  <span id="nightSummary">0</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span>Price per night</span>
+                  <span>₹<%= listing.price.toLocaleString("en-IN") %></span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between fw-bold">
+                  <span>Total Amount</span>
+                  <span id="totalAmount">₹0</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2 mt-4">
+              <button type="submit" class="btn btn-success">Confirm Booking</button>
+              <a href="/listings/<%= listing._id %>" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const checkInInput = document.getElementById("checkIn");
+  const checkOutInput = document.getElementById("checkOut");
+  const guestsInput = document.getElementById("guests");
+  const nightSummary = document.getElementById("nightSummary");
+  const totalAmount = document.getElementById("totalAmount");
+  const pricePerNight = <%= listing.price %>;
+
+  function updateSummary() {
+    const checkIn = new Date(checkInInput.value);
+    const checkOut = new Date(checkOutInput.value);
+
+    if (checkIn && checkOut && checkOut > checkIn) {
+      const diffTime = checkOut - checkIn;
+      const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const total = nights * pricePerNight;
+      nightSummary.textContent = nights;
+      totalAmount.textContent = `₹${total.toLocaleString("en-IN")}`;
+    } else {
+      nightSummary.textContent = "0";
+      totalAmount.textContent = "₹0";
+    }
+  }
+
+  [checkInInput, checkOutInput, guestsInput].forEach((input) => {
+    input.addEventListener("input", updateSummary);
+    input.addEventListener("change", updateSummary);
+  });
+
+  document.querySelector("form").addEventListener("submit", function (event) {
+    if (!this.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    this.classList.add("was-validated");
+  });
+</script>

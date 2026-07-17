@@ -4,8 +4,69 @@ const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 module.exports.index = async (req, res) => {
-  const allListings = await Listing.find({});
-  res.render("listings/index.ejs", { allListings });
+  const { search, category, minPrice, maxPrice, maxGuests, sort, page = 1 } = req.query;
+
+  const normalizedSearch = typeof search === "string" ? search.trim() : "";
+  const escapedSearch = normalizedSearch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  let query = {};
+  let sortQuery = {};
+
+  if (escapedSearch) {
+    query.$text = { $search: escapedSearch };
+    sortQuery = { score: { $meta: "textScore" } };
+  }
+
+  if (category) {
+    query.category = category;
+  }
+
+  if (minPrice || maxPrice) {
+    query.price = {};
+    if (minPrice) query.price.$gte = Number(minPrice);
+    if (maxPrice) query.price.$lte = Number(maxPrice);
+  }
+
+  if (maxGuests) {
+    query.maxGuests = { $gte: Number(maxGuests) };
+  }
+
+  if (sort === "price_asc") {
+    sortQuery = { price: 1 };
+  } else if (sort === "price_desc") {
+    sortQuery = { price: -1 };
+  } else if (sort === "newest") {
+    sortQuery = { createdAt: -1 };
+  } else if (sort === "highest_rating") {
+    sortQuery = { ratingAverage: -1, ratingCount: -1 };
+  } else if (escapedSearch) {
+    sortQuery = { score: { $meta: "textScore" } };
+  }
+
+  const pageNumber = Math.max(1, Number(page));
+  const limit = 10;
+  const skip = (pageNumber - 1) * limit;
+
+  const [allListings, totalListings] = await Promise.all([
+    Listing.find(query).sort(sortQuery).skip(skip).limit(limit),
+    Listing.countDocuments(query),
+  ]);
+
+  const totalPages = Math.ceil(totalListings / limit);
+
+  res.render("listings/index.ejs", {
+    allListings,
+    currentPage: pageNumber,
+    totalPages,
+    hasPrevPage: pageNumber > 1,
+    hasNextPage: pageNumber < totalPages,
+    search: normalizedSearch,
+    category,
+    minPrice,
+    maxPrice,
+    maxGuests,
+    sort,
+  });
 };
 
 module.exports.renderNewForm = (req, res) => {

@@ -1,0 +1,126 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .edit-shell {
+    max-width: 860px;
+    margin: 2rem auto;
+  }
+
+  .edit-card {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 1.25rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .edit-header {
+    background: linear-gradient(135deg, #ff5a5f, #ff7a7f);
+    color: white;
+    padding: 1.5rem 2rem;
+  }
+
+  .edit-body {
+    padding: 2rem;
+  }
+</style>
+
+<div class="edit-shell">
+  <div class="edit-card">
+    <div class="edit-header">
+      <h3 class="mb-1">Edit Profile</h3>
+      <p class="mb-0 opacity-75">Update your public profile details below.</p>
+    </div>
+
+    <div class="edit-body">
+      <div class="border rounded-4 p-3 p-md-4 mb-4">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-3 text-center">
+            <div class="rounded-circle overflow-hidden border mx-auto" style="width: 96px; height: 96px;">
+              <% if (user.avatar && user.avatar.url) { %>
+                <img src="<%= user.avatar.url %>" alt="Current avatar" class="w-100 h-100" style="object-fit: cover;" />
+              <% } else { %>
+                <div class="d-flex align-items-center justify-content-center w-100 h-100 bg-light text-muted">
+                  <i class="fa-solid fa-user fa-2x"></i>
+                </div>
+              <% } %>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <h5 class="fw-bold mb-2">Profile Image</h5>
+            <p class="text-muted mb-3 small">
+              JPG, PNG, or JPEG only. Maximum size depends on your upload settings.
+            </p>
+            <form action="/profile/avatar" method="POST" enctype="multipart/form-data" class="d-flex flex-wrap gap-2 align-items-center">
+              <input class="form-control form-control-sm" type="file" name="avatar" accept="image/png, image/jpeg, image/jpg" required />
+              <button type="submit" class="btn btn-outline-dark btn-sm">
+                <i class="fa-solid fa-upload me-2"></i>Upload
+              </button>
+            </form>
+            <% if (typeof validationMessage !== 'undefined' && validationMessage) { %>
+              <div class="text-danger small mt-2"><%= validationMessage %></div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+      <form action="/profile?_method=PUT" method="POST" class="row g-3">
+        <div class="col-md-6">
+          <label for="fullName" class="form-label">Full Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="fullName"
+            name="fullName"
+            value="<%= user.fullName || "" %>"
+            placeholder="Enter your full name"
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label for="phone" class="form-label">Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            id="phone"
+            name="phone"
+            value="<%= user.phone || "" %>"
+            placeholder="Add your phone number"
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label for="location" class="form-label">Location</label>
+          <input
+            type="text"
+            class="form-control"
+            id="location"
+            name="location"
+            value="<%= user.location || "" %>"
+            placeholder="Where are you from?"
+          />
+        </div>
+
+        <div class="col-12">
+          <label for="bio" class="form-label">Bio</label>
+          <textarea
+            class="form-control"
+            id="bio"
+            name="bio"
+            rows="4"
+            placeholder="Write a short bio"
+          ><%= user.bio || "" %></textarea>
+        </div>
+
+        <div class="col-12 d-flex flex-wrap gap-2 mt-3">
+          <button type="submit" class="btn btn-dark px-4">
+            <i class="fa-solid fa-floppy-disk me-2"></i>Save
+          </button>
+          <a href="/profile" class="btn btn-outline-secondary px-4">
+            <i class="fa-solid fa-xmark me-2"></i>Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

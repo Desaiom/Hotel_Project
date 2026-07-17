@@ -1,0 +1,50 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold mb-1">My Listings</h2>
+      <p class="text-muted mb-0">Manage the properties you created.</p>
+    </div>
+    <a href="/listings/new" class="btn btn-dark">
+      <i class="fa-solid fa-plus me-2"></i>Create New Listing
+    </a>
+  </div>
+
+  <% if (listings && listings.length > 0) { %>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+      <% for (let listing of listings) { %>
+        <div class="col">
+          <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+            <img src="<%= listing.image && listing.image.url ? listing.image.url : '/images/default-listing.jpg' %>" class="card-img-top" alt="<%= listing.title %>" style="height: 220px; object-fit: cover;" />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title fw-bold mb-2"><%= listing.title %></h5>
+              <p class="text-muted mb-2">
+                <i class="fa-solid fa-location-dot me-2"></i><%= listing.location %>
+              </p>
+              <p class="fw-semibold mb-3">
+                ₹ <%= listing.price ? listing.price.toLocaleString("en-IN") : 0 %> / night
+              </p>
+              <div class="mt-auto d-flex gap-2">
+                <a href="/listings/<%= listing._id %>/edit" class="btn btn-outline-dark btn-sm flex-grow-1">
+                  <i class="fa-solid fa-pen-to-square me-2"></i>Edit
+                </a>
+                <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST" class="flex-grow-1">
+                  <button class="btn btn-outline-danger btn-sm w-100" type="submit">
+                    <i class="fa-solid fa-trash me-2"></i>Delete
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  <% } else { %>
+    <div class="text-center py-5 border rounded-4 bg-light">
+      <h5 class="fw-semibold">No listings yet</h5>
+      <p class="text-muted">You have not created any listings yet.</p>
+      <a href="/listings/new" class="btn btn-dark mt-2">Create one</a>
+    </div>
+  <% } %>
+</div>

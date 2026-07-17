@@ -1,0 +1,52 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">My Bookings</h2>
+  </div>
+
+  <% if(bookings.length > 0){ %>
+    <div class="row g-4">
+      <% for(let booking of bookings){ %>
+        <div class="col-lg-6">
+          <div class="card shadow-sm border-0 h-100 overflow-hidden">
+            <div class="row g-0 h-100">
+              <div class="col-md-5">
+                <img
+                  src="<%= booking.listing.image.url %>"
+                  alt="listing_image"
+                  class="img-fluid h-100 w-100"
+                  style="object-fit: cover; min-height: 220px;"
+                />
+              </div>
+              <div class="col-md-7">
+                <div class="card-body d-flex flex-column h-100">
+                  <h5 class="card-title"><%= booking.listing.title %></h5>
+                  <p class="text-muted mb-2"><%= booking.listing.location %></p>
+
+                  <ul class="list-unstyled small mb-3">
+                    <li><strong>Dates:</strong> <%= booking.checkIn.toDateString() %> to <%= booking.checkOut.toDateString() %></li>
+                    <li><strong>Guests:</strong> <%= booking.guests %></li>
+                    <li><strong>Amount:</strong> ₹<%= booking.totalPrice.toLocaleString("en-IN") %></li>
+                  </ul>
+
+                  <div class="mb-3">
+                    <span class="badge bg-info-subtle text-info-emphasis me-2">Status: <%= booking.status %></span>
+                    <span class="badge bg-warning-subtle text-warning-emphasis">Payment: <%= booking.paymentStatus %></span>
+                  </div>
+
+                  <a href="/bookings/<%= booking._id %>" class="btn btn-outline-dark mt-auto">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  <% } else { %>
+    <div class="alert alert-light border text-center py-5">
+      <h5>No bookings yet</h5>
+      <p class="mb-0">You have not made any bookings yet.</p>
+    </div>
+  <% } %>
+</div>

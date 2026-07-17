@@ -1,0 +1,83 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0 overflow-hidden">
+        <div class="row g-0">
+          <div class="col-md-5">
+            <img
+              src="<%= booking.listing.image.url %>"
+              alt="listing_image"
+              class="img-fluid h-100 w-100"
+              style="object-fit: cover; min-height: 100%;"
+            />
+          </div>
+          <div class="col-md-7">
+            <div class="card-body p-4">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <h3 class="card-title mb-1"><%= booking.listing.title %></h3>
+                  <p class="text-muted mb-0">Booking Details</p>
+                </div>
+                <span class="badge bg-success-subtle text-success-emphasis">Confirmed</span>
+              </div>
+
+              <div class="row g-3 mb-4">
+                <div class="col-sm-6">
+                  <div class="border rounded p-3 h-100">
+                    <small class="text-uppercase text-muted">Check-in</small>
+                    <div class="fw-semibold"><%= booking.checkIn.toDateString() %></div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="border rounded p-3 h-100">
+                    <small class="text-uppercase text-muted">Check-out</small>
+                    <div class="fw-semibold"><%= booking.checkOut.toDateString() %></div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="border rounded p-3 h-100">
+                    <small class="text-uppercase text-muted">Guests</small>
+                    <div class="fw-semibold"><%= booking.guests %></div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="border rounded p-3 h-100">
+                    <small class="text-uppercase text-muted">Nights</small>
+                    <div class="fw-semibold"><%= booking.nights %></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="border rounded p-3 mb-4">
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Total Price</span>
+                  <span class="fw-bold">₹<%= booking.totalPrice.toLocaleString("en-IN") %></span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Booking Status</span>
+                  <span class="badge bg-info-subtle text-info-emphasis"><%= booking.status %></span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">Payment Status</span>
+                  <span class="badge bg-warning-subtle text-warning-emphasis"><%= booking.paymentStatus %></span>
+                </div>
+              </div>
+
+              <% if(booking.paymentStatus === "pending") { %>
+              <button class="btn btn-success w-100 mb-3" data-booking-id="<%= booking._id %>" id="payNowBtn">
+                Pay Now
+              </button>
+              <% } %>
+
+              <form action="/bookings/<%= booking._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-outline-danger w-100">Cancel Booking</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

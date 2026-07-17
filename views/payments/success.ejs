@@ -1,0 +1,60 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-4">
+            <div class="rounded-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center" style="width: 90px; height: 90px;">
+              <i class="fa-solid fa-circle-check text-success fs-1"></i>
+            </div>
+          </div>
+
+          <h2 class="text-center fw-bold text-success mb-3">✓ Payment Successful</h2>
+          <p class="text-center text-muted mb-4">Your booking has been confirmed and payment has been completed successfully.</p>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="p-3 rounded-3 bg-light">
+                <small class="text-uppercase text-muted fw-semibold">Hotel</small>
+                <div class="fw-bold mt-1"><%= booking.listing.title %></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 rounded-3 bg-light">
+                <small class="text-uppercase text-muted fw-semibold">Booking ID</small>
+                <div class="fw-bold mt-1"><%= booking._id.toString() %></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 rounded-3 bg-light">
+                <small class="text-uppercase text-muted fw-semibold">Payment ID</small>
+                <div class="fw-bold mt-1"><%= booking.razorpayPaymentId || "N/A" %></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 rounded-3 bg-light">
+                <small class="text-uppercase text-muted fw-semibold">Amount Paid</small>
+                <div class="fw-bold mt-1">₹<%= booking.totalPrice %></div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="p-3 rounded-3 bg-light">
+                <small class="text-uppercase text-muted fw-semibold">Dates</small>
+                <div class="fw-bold mt-1">
+                  <%= booking.checkIn.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) %> to
+                  <%= booking.checkOut.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+            <a href="/bookings" class="btn btn-success btn-lg px-4">Back to My Bookings</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

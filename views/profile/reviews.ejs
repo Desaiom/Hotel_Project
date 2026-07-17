@@ -1,0 +1,52 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container py-4">
+  <div class="mb-4">
+    <h2 class="fw-bold mb-1">My Reviews</h2>
+    <p class="text-muted mb-0">View and manage the reviews you wrote.</p>
+  </div>
+
+  <% if (reviews && reviews.length > 0) { %>
+    <div class="row g-4">
+      <% for (let review of reviews) { %>
+        <div class="col-12">
+          <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                <div>
+                  <h5 class="fw-bold mb-2">
+                    <%= review.listing && review.listing.title ? review.listing.title : 'Listing' %>
+                  </h5>
+                  <p class="mb-2 text-muted">
+                    <i class="fa-solid fa-star me-2 text-warning"></i>
+                    Rating: <%= review.rating || 0 %>/5
+                  </p>
+                  <p class="mb-2"><%= review.comment || 'No comment provided.' %></p>
+                  <p class="text-muted small mb-0">
+                    <i class="fa-solid fa-calendar-days me-2"></i>
+                    Created: <%= review.createdAt ? new Date(review.createdAt).toLocaleDateString('en-IN') : 'N/A' %>
+                  </p>
+                </div>
+                <div class="d-flex gap-2">
+                  <a href="/listings/<%= review.listing ? review.listing._id : '' %>#review-<%= review._id %>" class="btn btn-outline-dark btn-sm">
+                    <i class="fa-solid fa-pen-to-square me-2"></i>Edit
+                  </a>
+                  <form action="/listings/<%= review.listing ? review.listing._id : '' %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                      <i class="fa-solid fa-trash me-2"></i>Delete
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  <% } else { %>
+    <div class="text-center py-5 border rounded-4 bg-light">
+      <h5 class="fw-semibold">No reviews yet</h5>
+      <p class="text-muted">You have not written any reviews yet.</p>
+    </div>
+  <% } %>
+</div>

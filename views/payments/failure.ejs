@@ -1,0 +1,28 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="card-body p-4 p-md-5 text-center">
+          <div class="rounded-circle bg-danger bg-opacity-10 d-inline-flex align-items-center justify-content-center" style="width: 90px; height: 90px;">
+            <i class="fa-solid fa-circle-xmark text-danger fs-1"></i>
+          </div>
+
+          <h2 class="fw-bold text-danger mt-4 mb-3">Payment Failed</h2>
+          <p class="text-muted mb-4">We could not complete your payment. Please review the reason below and try again.</p>
+
+          <div class="p-3 rounded-3 bg-light text-start mb-4">
+            <small class="text-uppercase text-muted fw-semibold">Reason</small>
+            <div class="fw-bold mt-1"><%= message || "Payment was not completed successfully." %></div>
+          </div>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <a href="/bookings/<%= booking._id %>" class="btn btn-outline-secondary px-4">Back to Booking</a>
+            <a href="/bookings/<%= booking._id %>" class="btn btn-danger px-4">Retry Payment</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
