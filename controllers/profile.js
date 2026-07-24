@@ -1,4 +1,7 @@
 const User = require("../models/user");
+const Booking = require("../models/booking");
+const Listing = require("../models/listing");
+const Review = require("../models/reviews");
 const { cloudinary } = require("../cloudConfig");
 
 module.exports.showProfile = async (req, res) => {
@@ -83,7 +86,8 @@ module.exports.uploadAvatar = async (req, res) => {
       return res.redirect("/listings");
     }
 
-    const previousAvatar = user.avatar && user.avatar.filename ? user.avatar.filename : null;
+    const previousAvatar =
+      user.avatar && user.avatar.filename ? user.avatar.filename : null;
     const newAvatarData = {
       url: req.file.path || req.file.secure_url || "",
       filename: req.file.filename,
@@ -118,5 +122,50 @@ module.exports.uploadAvatar = async (req, res) => {
     console.error("Avatar upload failed:", err);
     req.flash("error", "Avatar upload failed.");
     return res.redirect("/profile");
+  }
+};
+
+module.exports.myBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find({ user: req.user._id })
+      .populate("listing")
+      .sort({ createdAt: -1 });
+
+    res.render("profile/bookings", { bookings });
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "Unable to load bookings.");
+    res.redirect("/profile");
+  }
+};
+
+module.exports.myListings = async (req, res) => {
+  try {
+    const listings = await Listing.find({
+      owner: req.user._id,
+    }).sort({ createdAt: -1 });
+
+    res.render("profile/listings", { listings });
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "Unable to load listings.");
+    res.redirect("/profile");
+  }
+};
+
+module.exports.myReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find({
+      author: req.user._id,
+    })
+      .populate("listing")
+      .populate("author")
+      .sort({ createdAt: -1 });
+
+    res.render("profile/reviews", { reviews });
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "Unable to load reviews.");
+    res.redirect("/profile");
   }
 };

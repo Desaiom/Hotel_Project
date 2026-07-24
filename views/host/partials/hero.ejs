@@ -1,0 +1,84 @@
+<div class="rounded-4 shadow-lg p-5 mb-4 text-white hero-section">
+  <div class="row align-items-center">
+    <div class="col-lg-8">
+      <span class="badge bg-light text-danger px-3 py-2 mb-3">
+        <i class="fa-solid fa-chart-line"></i>
+        Host Dashboard
+      </span>
+
+      <h1 class="fw-bold mb-3">Welcome back, <%= currUser.username %> 👋</h1>
+
+      <p class="lead opacity-75 mb-4">
+        Manage your properties, bookings, guests and earnings from one place.
+      </p>
+
+      <div class="d-flex flex-wrap gap-3">
+        <div class="hero-info">
+          <h4 class="mb-0"><%= listings.length %></h4>
+
+          <small>Total Listings</small>
+        </div>
+
+        <div class="hero-info">
+          <h4 class="mb-0"><%= bookings.length %></h4>
+
+          <small>Total Bookings</small>
+        </div>
+
+        <div class="hero-info">
+          <h4 class="mb-0">₹<%= revenue.toLocaleString("en-IN") %></h4>
+
+          <small>Earnings</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 text-center d-none d-lg-block">
+      <i class="fa-solid fa-hotel hero-icon"></i>
+    </div>
+  </div>
+</div>
+
+<style>
+  .hero-section {
+    background: linear-gradient(135deg, #ff385c, #ff6b6b);
+
+    overflow: hidden;
+
+    position: relative;
+  }
+
+  .hero-icon {
+    font-size: 150px;
+
+    opacity: 0.18;
+  }
+
+  .hero-info {
+    background: rgba(255, 255, 255, 0.15);
+
+    padding: 15px 25px;
+
+    border-radius: 15px;
+
+    backdrop-filter: blur(8px);
+
+    min-width: 140px;
+
+    text-align: center;
+
+    transition: 0.3s;
+  }
+
+  .hero-info:hover {
+    transform: translateY(-5px);
+
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  .hero-info small {
+    color: white;
+
+    opacity: 0.8;
+  }
+</style>

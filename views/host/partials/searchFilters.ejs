@@ -1,0 +1,98 @@
+<div class="card shadow-sm border-0 rounded-4 mt-4">
+
+    <div class="card-body">
+
+        <form action="/host/dashboard" method="GET">
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-lg-5">
+
+                    <label class="form-label fw-semibold">
+                        Guest Search
+                    </label>
+
+                    <input
+                        type="text"
+                        name="search"
+                        value="<%= search %>"
+                        class="form-control"
+                        placeholder="Search by guest name or email">
+
+                </div>
+
+                <div class="col-lg-3">
+
+                    <label class="form-label fw-semibold">
+                        Booking Status
+                    </label>
+
+                    <select
+                        name="status"
+                        class="form-select">
+
+                        <option value="">
+                            All Status
+                        </option>
+
+                        <option
+                            value="pending"
+                            <%= status==="pending"?"selected":"" %>>
+                            Pending
+                        </option>
+
+                        <option
+                            value="confirmed"
+                            <%= status==="confirmed"?"selected":"" %>>
+                            Confirmed
+                        </option>
+
+                        <option
+                            value="completed"
+                            <%= status==="completed"?"selected":"" %>>
+                            Completed
+                        </option>
+
+                        <option
+                            value="cancelled"
+                            <%= status==="cancelled"?"selected":"" %>>
+                            Cancelled
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-2 d-grid">
+
+                    <button class="btn btn-danger">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        Search
+
+                    </button>
+
+                </div>
+
+                <div class="col-lg-2 d-grid">
+
+                    <a
+                        href="/host/dashboard"
+                        class="btn btn-outline-secondary">
+
+                        <i class="fa-solid fa-rotate-right"></i>
+
+                        Reset
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

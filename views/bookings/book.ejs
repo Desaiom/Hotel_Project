@@ -1,0 +1,60 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-4">
+
+    <h2>Book <%= listing.title %></h2>
+
+    <div class="card mb-4">
+        <img
+src="<%= listing.images && listing.images.length ? listing.images[0].url : '/images/default.jpg' %>"
+class="card-img-top"
+style="height:220px;object-fit:cover;">
+
+        <div class="card-body">
+            <h4><%= listing.title %></h4>
+            <p><%= listing.location %>, <%= listing.country %></p>
+            <h5>₹<%= listing.price %> / night</h5>
+        </div>
+    </div>
+
+    <form action="/listings/<%= listing._id %>/bookings" method="POST">
+
+        <div class="mb-3">
+            <label>Check In</label>
+            <input
+                type="date"
+                class="form-control"
+                name="booking[checkIn]"
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label>Check Out</label>
+            <input
+                type="date"
+                class="form-control"
+                name="booking[checkOut]"
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label>Guests</label>
+            <input
+                type="number"
+                class="form-control"
+                name="booking[guests]"
+                value="1"
+                min="1"
+                max="<%= listing.maxGuests %>"
+            >
+        </div>
+
+        <button class="btn btn-success">
+            Confirm Booking
+        </button>
+
+    </form>
+
+</div>

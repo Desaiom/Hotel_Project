@@ -1,14 +1,74 @@
-<footer>
-    <div class="f-info">
-        <div class="f-socials">
-            <i class="fa-brands fa-square-facebook"></i>
-            <i class="fa-brands fa-square-instagram"></i>
-            <i class="fa-brands fa-linkedin"></i>
+<footer class="footer mt-5">
+  <div class="container py-5">
+    <div class="row gy-4">
+      <!-- Brand -->
+      <div class="col-lg-4 col-md-6">
+        <h4 class="fw-bold">
+          <i class="fa-solid fa-compass me-2"></i>Wanderlust
+        </h4>
+        <p class="text-light-emphasis">
+          Discover amazing stays, unique experiences, and unforgettable journeys
+          across the world.
+        </p>
+
+        <div class="social-icons">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
         </div>
-        <div class="f-brand">&copy;Wanderlust Private Limited</div>
-        <div class="f-links">
-            <a href="/privacy">Privacy</a>
-            <a href="/terms">Terms</a>
-        </div>
+      </div>
+
+      <!-- Explore -->
+      <div class="col-lg-2 col-md-6">
+        <h5>Explore</h5>
+        <ul class="list-unstyled">
+          <li><a href="/listings">Listings</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/host">Become a Host</a></li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div class="col-lg-3 col-md-6">
+        <h5>Support</h5>
+        <ul class="list-unstyled">
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms & Conditions</a></li>
+          <li><a href="/faq">FAQs</a></li>
+          <li><a href="/help">Help Center</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="col-lg-3 col-md-6">
+        <h5>Contact</h5>
+        <p><i class="fa-solid fa-envelope me-2"></i>support@wanderlust.com</p>
+        <p><i class="fa-solid fa-phone me-2"></i>+91 8624073089</p>
+        <p>
+          <i class="fa-solid fa-location-dot me-2"></i>Pune, Maharashtra, India
+        </p>
+      </div>
     </div>
+
+    <hr class="border-secondary my-4" />
+
+    <div
+      class="d-flex flex-column flex-md-row justify-content-between align-items-center"
+    >
+      <p class="mb-2 mb-md-0">
+        © <%= new Date().getFullYear() %> Wanderlust Private Limited. All Rights
+        Reserved.
+      </p>
+
+      <div class="footer-bottom-links">
+        <a href="/privacy">Privacy</a>
+        <span>|</span>
+        <a href="/terms">Terms</a>
+        <span>|</span>
+        <a href="/contact">Contact</a>
+      </div>
+    </div>
+  </div>
 </footer>

@@ -1,0 +1,182 @@
+<div class="mt-5">
+  <h3 class="mb-4">
+    <i class="fa-solid fa-chart-line text-danger"></i>
+    Business Analytics
+  </h3>
+
+  <div class="row g-4">
+    <!-- Revenue -->
+
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-header bg-white border-0">
+          <h5 class="mb-0">Monthly Revenue</h5>
+        </div>
+
+        <div class="card-body">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bookings -->
+
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-header bg-white border-0">
+          <h5 class="mb-0">Monthly Bookings</h5>
+        </div>
+
+        <div class="card-body">
+          <canvas id="bookingChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ratings -->
+
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-header bg-white border-0">
+          <h5 class="mb-0">Rating Distribution</h5>
+        </div>
+
+        <div class="card-body">
+          <canvas id="ratingChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status -->
+
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-header bg-white border-0">
+          <h5 class="mb-0">Booking Status</h5>
+        </div>
+
+        <div class="card-body">
+          <canvas id="statusChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  const months = [
+  'Jan','Feb','Mar','Apr','May','Jun',
+  'Jul','Aug','Sep','Oct','Nov','Dec'
+  ];
+
+  new Chart(document.getElementById('revenueChart'),{
+
+      type:'line',
+
+      data:{
+
+          labels:months,
+
+          datasets:[{
+
+              label:'Revenue',
+
+              data:<%- JSON.stringify(monthlyRevenue) %>,
+
+              borderColor:'#ff385c',
+
+              backgroundColor:'rgba(255,56,92,.15)',
+
+              fill:true,
+
+              tension:.4
+
+          }]
+
+      },
+
+      options:{
+
+          responsive:true,
+
+          plugins:{
+
+              legend:{display:false}
+
+          }
+
+      }
+
+  });
+
+  new Chart(document.getElementById('bookingChart'),{
+
+      type:'bar',
+
+      data:{
+
+          labels:months,
+
+          datasets:[{
+
+              label:'Bookings',
+
+              data:<%- JSON.stringify(monthlyBookings) %>,
+
+              backgroundColor:'#0d6efd'
+
+          }]
+
+      },
+
+      options:{
+
+          responsive:true,
+
+          plugins:{
+
+              legend:{display:false}
+
+          }
+
+      }
+
+  });
+
+  new Chart(document.getElementById('ratingChart'),{
+
+      type:'doughnut',
+
+      data:{
+
+          labels:["1★","2★","3★","4★","5★"],
+
+          datasets:[{
+
+              data:<%- JSON.stringify(ratingCount) %>
+
+          }]
+
+      }
+
+  });
+
+  new Chart(document.getElementById('statusChart'),{
+
+      type:'pie',
+
+      data:{
+
+          labels:Object.keys(<%- JSON.stringify(statusData) %>),
+
+          datasets:[{
+
+              data:Object.values(<%- JSON.stringify(statusData) %>)
+
+          }]
+
+      }
+
+  });
+</script>

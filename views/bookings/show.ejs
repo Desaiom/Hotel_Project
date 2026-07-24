@@ -7,7 +7,7 @@
         <div class="row g-0">
           <div class="col-md-5">
             <img
-              src="<%= booking.listing.image.url %>"
+              src="<%= booking.listing.images && booking.listing.images.length ? booking.listing.images[0].url : '/images/default.jpg' %>"
               alt="listing_image"
               class="img-fluid h-100 w-100"
               style="object-fit: cover; min-height: 100%;"
@@ -65,15 +65,17 @@
                 </div>
               </div>
 
-              <% if(booking.paymentStatus === "pending") { %>
+              <% if(booking.paymentStatus === "pending" && currUser && (booking.guest._id.equals(currUser._id) || isAdmin)) { %>
               <button class="btn btn-success w-100 mb-3" data-booking-id="<%= booking._id %>" id="payNowBtn">
                 Pay Now
               </button>
               <% } %>
 
+              <% if(currUser && (booking.guest._id.equals(currUser._id) || booking.host._id.equals(currUser._id) || isAdmin)) { %>
               <form action="/bookings/<%= booking._id %>?_method=DELETE" method="POST">
                 <button class="btn btn-outline-danger w-100">Cancel Booking</button>
               </form>
+              <% } %>
             </div>
           </div>
         </div>

@@ -1,0 +1,263 @@
+<div class="card shadow-sm border-0 rounded-4 mt-4">
+
+    <div class="card-header bg-white border-0 py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+                <i class="fa-solid fa-calendar-check text-danger"></i>
+                Recent Bookings
+            </h4>
+
+            <span class="badge bg-danger rounded-pill">
+                <%= bookings.length %> Bookings
+            </span>
+        </div>
+    </div>
+
+    <div class="card-body p-0">
+
+        <% if(bookings.length === 0){ %>
+
+            <div class="text-center py-5">
+
+                <i class="fa-solid fa-calendar-xmark fa-4x text-secondary mb-3"></i>
+
+                <h5>No Bookings Found</h5>
+
+                <p class="text-muted">
+                    No bookings match your current filters.
+                </p>
+
+            </div>
+
+        <% } else { %>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+                        <th>Guest</th>
+                        <th>Hotel</th>
+                        <th>Stay</th>
+                        <th>Guests</th>
+                        <th>Amount</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                       
+                        <th></th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                <% bookings.forEach(b=>{ %>
+
+                    <tr>
+
+                        <td>
+
+                            <strong><%= b.guest.username %></strong>
+
+                            <br>
+
+                            <small class="text-muted">
+                                <%= b.guest.email %>
+                            </small>
+
+                        </td>
+
+                        <td>
+
+                            <strong><%= b.listing.title %></strong>
+
+                            <br>
+
+                            <small class="text-muted">
+                                <%= b.listing.location %>
+                            </small>
+
+                        </td>
+
+                        <td>
+
+                            <%= new Date(b.checkIn).toLocaleDateString() %>
+
+                            <br>
+
+                            <small class="text-muted">
+                                to
+                                <%= new Date(b.checkOut).toLocaleDateString() %>
+                            </small>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-secondary">
+                                <%= b.guests %>
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <strong class="text-success">
+                                ₹<%= b.totalPrice.toLocaleString("en-IN") %>
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            <% if(b.paymentStatus==="paid"){ %>
+
+                                <span class="badge bg-success">
+                                    Paid
+                                </span>
+
+                            <% }else if(b.paymentStatus==="failed"){ %>
+
+                                <span class="badge bg-danger">
+                                    Failed
+                                </span>
+
+                            <% }else if(b.paymentStatus==="refunded"){ %>
+
+                                <span class="badge bg-secondary">
+                                    Refunded
+                                </span>
+
+                            <% }else{ %>
+
+                                <span class="badge bg-warning text-dark">
+                                    Pending
+                                </span>
+
+                            <% } %>
+
+                        </td>
+
+                        <td>
+
+                            <form
+                                action="/host/bookings/<%= b._id %>/status?_method=PUT"
+                                method="POST">
+
+                                <select
+                                    name="status"
+                                    class="form-select form-select-sm"
+                                    onchange="this.form.submit()">
+
+                                    <option
+                                        value="pending"
+                                        <%= b.status==="pending"?"selected":"" %>>
+                                        Pending
+                                    </option>
+
+                                    <option
+                                        value="confirmed"
+                                        <%= b.status==="confirmed"?"selected":"" %>>
+                                        Confirmed
+                                    </option>
+
+                                    <option
+                                        value="completed"
+                                        <%= b.status==="completed"?"selected":"" %>>
+                                        Completed
+                                    </option>
+
+                                    <option
+                                        value="cancelled"
+                                        <%= b.status==="cancelled"?"selected":"" %>>
+                                        Cancelled
+                                    </option>
+
+                                </select>
+
+                            </form>
+
+                        </td>
+
+
+                    </tr>
+
+                <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <% } %>
+
+    </div>
+
+    <% if(totalPages>1){ %>
+
+    <div class="card-footer bg-white">
+
+        <nav>
+
+            <ul class="pagination justify-content-center mb-0">
+
+                <% if(page>1){ %>
+
+                <li class="page-item">
+
+                    <a
+                        class="page-link"
+                        href="/host/dashboard?page=<%= page-1 %>&search=<%= search %>&status=<%= status %>">
+
+                        Previous
+
+                    </a>
+
+                </li>
+
+                <% } %>
+
+                <% for(let i=1;i<=totalPages;i++){ %>
+
+                <li class="page-item <%= page===i?'active':'' %>">
+
+                    <a
+                        class="page-link"
+                        href="/host/dashboard?page=<%= i %>&search=<%= search %>&status=<%= status %>">
+
+                        <%= i %>
+
+                    </a>
+
+                </li>
+
+                <% } %>
+
+                <% if(page<totalPages){ %>
+
+                <li class="page-item">
+
+                    <a
+                        class="page-link"
+                        href="/host/dashboard?page=<%= page+1 %>&search=<%= search %>&status=<%= status %>">
+
+                        Next
+
+                    </a>
+
+                </li>
+
+                <% } %>
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+    <% } %>
+
+</div>

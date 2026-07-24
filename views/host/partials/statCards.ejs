@@ -1,0 +1,65 @@
+<div class="row g-4 mt-1">
+  <!-- Total Listings -->
+  <div class="col-lg-3 col-md-6">
+    <div class="card border-0 shadow-sm rounded-4 h-100">
+      <div class="card-body d-flex align-items-center">
+        <div class="rounded-circle bg-danger bg-opacity-10 p-3 me-3">
+          <i class="fa-solid fa-hotel text-danger fs-3"></i>
+        </div>
+
+        <div>
+          <h3 class="fw-bold mb-0"><%= listings.length %></h3>
+          <small class="text-muted">Total Listings</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bookings -->
+  <div class="col-lg-3 col-md-6">
+    <div class="card border-0 shadow-sm rounded-4 h-100">
+      <div class="card-body d-flex align-items-center">
+        <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
+          <i class="fa-solid fa-calendar-check text-success fs-3"></i>
+        </div>
+
+        <div>
+          <h3 class="fw-bold mb-0"><%= bookings.length %></h3>
+          <small class="text-muted">Bookings</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Revenue -->
+  <div class="col-lg-3 col-md-6">
+    <div class="card border-0 shadow-sm rounded-4 h-100">
+      <div class="card-body d-flex align-items-center">
+        <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+          <i class="fa-solid fa-indian-rupee-sign text-warning fs-3"></i>
+        </div>
+
+        <div>
+          <h3 class="fw-bold mb-0">₹<%= revenue.toLocaleString("en-IN") %></h3>
+          <small class="text-muted">Revenue</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rating -->
+  <div class="col-lg-3 col-md-6">
+    <div class="card border-0 shadow-sm rounded-4 h-100">
+      <div class="card-body d-flex align-items-center">
+        <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+          <i class="fa-solid fa-star text-primary fs-3"></i>
+        </div>
+
+        <div>
+          <h3 class="fw-bold mb-0"><%= averageRating.toFixed(1) %></h3>
+          <small class="text-muted">Average Rating</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

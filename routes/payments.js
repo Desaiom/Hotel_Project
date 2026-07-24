@@ -1,18 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
-const { isLoggedIn } = require("../middleware.js");
+const { isLoggedIn, isBookingGuestOrAdmin } = require("../middleware.js");
 const paymentController = require("../controllers/payments.js");
 
 router.post(
   "/bookings/:id/pay",
   isLoggedIn,
+  isBookingGuestOrAdmin,
   wrapAsync(paymentController.createOrder)
 );
 
 router.post(
   "/bookings/:id/verify-payment",
   isLoggedIn,
+  isBookingGuestOrAdmin,
   wrapAsync(paymentController.verifyPayment)
 );
 

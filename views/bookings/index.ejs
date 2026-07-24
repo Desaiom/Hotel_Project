@@ -13,11 +13,12 @@
             <div class="row g-0 h-100">
               <div class="col-md-5">
                 <img
-                  src="<%= booking.listing.image.url %>"
-                  alt="listing_image"
-                  class="img-fluid h-100 w-100"
-                  style="object-fit: cover; min-height: 220px;"
-                />
+  src="<%= booking.listing.images && booking.listing.images.length
+        ? booking.listing.images[0].url
+        : '/images/default.jpg' %>"
+  class="card-img-top"
+  style="height:20rem;object-fit:cover;"
+>
               </div>
               <div class="col-md-7">
                 <div class="card-body d-flex flex-column h-100">

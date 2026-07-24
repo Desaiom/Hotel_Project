@@ -37,7 +37,9 @@ module.exports.createBooking = async (req, res, next) => {
       return res.redirect(`/listings/${id}/book`);
     }
 
-    const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+    const nights = Math.ceil(
+      (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24),
+    );
     const pricePerNight = listing.basePrice || listing.price || 0;
     const totalPrice = nights * pricePerNight;
 
@@ -76,10 +78,15 @@ module.exports.createBooking = async (req, res, next) => {
 
     await booking.save();
 
-    if (listing.bookings) {
-      listing.bookings.push(booking._id);
-      await listing.save();
-    }
+    // if (listing.bookings) {
+    //   listing.bookings.push(booking._id);
+    //   await listing.save();
+    // }
+    await Listing.findByIdAndUpdate(
+      listing._id,
+      { $push: { bookings: booking._id } },
+      { runValidators: false },
+    );
 
     req.flash("success", "Booking request created successfully");
     res.redirect(`/bookings/${booking._id}`);
@@ -119,6 +126,18 @@ module.exports.listBookings = async (req, res, next) => {
     next(err);
   }
 };
+// module.exports.listBookings = async (req, res) => {
+//     console.log("Logged user:", req.user._id.toString());
+
+//     const bookings = await Booking.find({ guest: req.user._id });
+
+//     console.log("Bookings found:", bookings.length);
+//     console.log(bookings);
+
+//     res.render("bookings/index", { bookings });
+// };
+
+const { isAdmin } = require("../utils/roles");
 
 module.exports.cancelBooking = async (req, res, next) => {
   try {
@@ -130,7 +149,10 @@ module.exports.cancelBooking = async (req, res, next) => {
       return res.redirect("/bookings");
     }
 
-    if (!booking.guest.equals(req.user._id)) {
+    const isGuest = booking.guest.equals(req.user._id);
+    const isHost = booking.host.equals(req.user._id);
+
+    if (!isAdmin(req.user) && !isGuest && !isHost) {
       req.flash("error", "You are not authorized to cancel this booking");
       return res.redirect(`/bookings/${id}`);
     }
@@ -145,3 +167,38 @@ module.exports.cancelBooking = async (req, res, next) => {
     next(err);
   }
 };
+
+// module.exports.cancelBooking = async (req, res, next) => {
+//   try {
+//     const { id } = req.params;
+
+//     const booking = await Booking.findById(id);
+
+//     if (!booking) {
+//       req.flash("error", "Booking not found");
+//       return res.redirect("/bookings");
+//     }
+
+//     const isGuest = booking.guest.equals(req.user._id);
+//     const isHost = booking.host.equals(req.user._id);
+
+//     if (!isAdmin(req.user) && !isGuest && !isHost) {
+//       req.flash("error", "You are not authorized");
+//       return res.redirect(`/bookings/${id}`);
+//     }
+
+//     // Remove booking reference from listing
+//     await Listing.findByIdAndUpdate(
+//       booking.listing,
+//       { $pull: { bookings: booking._id } }
+//     );
+
+//     // Delete booking
+//     await Booking.findByIdAndDelete(id);
+
+//     req.flash("success", "Booking deleted successfully");
+//     res.redirect("/bookings");
+//   } catch (err) {
+//     next(err);
+//   }
+// };

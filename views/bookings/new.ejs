@@ -4,10 +4,16 @@
   <div class="row g-4 justify-content-center">
     <div class="col-lg-7">
       <div class="card shadow-sm border-0">
-        <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem; object-fit: cover;">
+        <img
+          src="<%= listing.images && listing.images.length ? listing.images[0].url : '/images/default.jpg' %>"
+          class="card-img-top"
+          style="height: 20rem; object-fit: cover"
+        />
         <div class="card-body">
           <h3 class="card-title mb-3"><%= listing.title %></h3>
-          <p class="text-muted mb-0">Price per night: ₹<%= listing.price.toLocaleString("en-IN") %></p>
+          <p class="text-muted mb-0">
+            Price per night: ₹<%= listing.price.toLocaleString("en-IN") %>
+          </p>
         </div>
       </div>
     </div>
@@ -16,22 +22,49 @@
       <div class="card shadow-sm border-0">
         <div class="card-body">
           <h4 class="card-title mb-4">Book Your Stay</h4>
-          <form action="/listings/<%= listing._id %>/bookings" method="POST" class="needs-validation" novalidate>
+          <form
+            action="/listings/<%= listing._id %>/bookings"
+            method="POST"
+            class="needs-validation"
+            novalidate
+          >
             <div class="mb-3">
               <label for="checkIn" class="form-label">Check-in Date</label>
-              <input type="date" class="form-control" id="checkIn" name="booking[checkIn]" required>
+              <input
+                type="date"
+                class="form-control"
+                id="checkIn"
+                name="booking[checkIn]"
+                required
+              />
               <div class="invalid-feedback">Please select a check-in date.</div>
             </div>
 
             <div class="mb-3">
               <label for="checkOut" class="form-label">Check-out Date</label>
-              <input type="date" class="form-control" id="checkOut" name="booking[checkOut]" required>
-              <div class="invalid-feedback">Please select a check-out date.</div>
+              <input
+                type="date"
+                class="form-control"
+                id="checkOut"
+                name="booking[checkOut]"
+                required
+              />
+              <div class="invalid-feedback">
+                Please select a check-out date.
+              </div>
             </div>
 
             <div class="mb-3">
               <label for="guests" class="form-label">Number of Guests</label>
-              <input type="number" class="form-control" id="guests" name="booking[guests]" min="1" value="1" required>
+              <input
+                type="number"
+                class="form-control"
+                id="guests"
+                name="booking[guests]"
+                min="1"
+                value="1"
+                required
+              />
               <div class="invalid-feedback">Please enter at least 1 guest.</div>
             </div>
 
@@ -46,7 +79,7 @@
                   <span>Price per night</span>
                   <span>₹<%= listing.price.toLocaleString("en-IN") %></span>
                 </div>
-                <hr>
+                <hr />
                 <div class="d-flex justify-content-between fw-bold">
                   <span>Total Amount</span>
                   <span id="totalAmount">₹0</span>
@@ -55,8 +88,14 @@
             </div>
 
             <div class="d-grid gap-2 mt-4">
-              <button type="submit" class="btn btn-success">Confirm Booking</button>
-              <a href="/listings/<%= listing._id %>" class="btn btn-outline-secondary">Cancel</a>
+              <button type="submit" class="btn btn-success">
+                Confirm Booking
+              </button>
+              <a
+                href="/listings/<%= listing._id %>"
+                class="btn btn-outline-secondary"
+                >Cancel</a
+              >
             </div>
           </form>
         </div>

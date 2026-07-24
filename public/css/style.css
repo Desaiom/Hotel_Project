@@ -62,7 +62,6 @@ body {
 .card {
   border: none !important;
   margin-bottom: 2rem;
-
 }
 
 .card-img-top {
@@ -75,7 +74,7 @@ body {
   padding: 0 !important;
 }
 
-.card-text  {
+.card-text {
   font-weight: 400;
   color: #222222;
 }
@@ -89,17 +88,15 @@ body {
   opacity: 0;
 }
 
-.card-img-overlay :hover  {
+.card-img-overlay :hover {
   opacity: 0.2 !important;
   background-color: white !important;
-  
 }
 
 .card-hover:hover {
   opacity: 0.7;
   background-color: white;
   text-decoration: underline;
-
 }
 .add-btn .edit-btn {
   background-color: #fe424d !important;
@@ -144,4 +141,84 @@ body {
 
 .ms-3 {
   margin-left: 1rem;
+}
+
+.wishlist-btn {
+  border: none;
+  background: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.wishlist-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 20;
+}
+.footer {
+  background: #212529;
+  color: #fff;
+}
+
+.footer h4,
+.footer h5 {
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.footer p {
+  color: #cfcfcf;
+  line-height: 1.7;
+}
+
+.footer ul li {
+  margin-bottom: 10px;
+}
+
+.footer a {
+  color: #cfcfcf;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.footer a:hover {
+  color: #ff5a5f;
+  padding-left: 5px;
+}
+
+.social-icons {
+  margin-top: 20px;
+}
+
+.social-icons a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 42px;
+  height: 42px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.social-icons a:hover {
+  background: #ff5a5f;
+  color: white;
+  transform: translateY(-5px);
+}
+
+.footer-bottom-links a {
+  margin: 0 8px;
+}
+
+.footer-bottom-links span {
+  color: #888;
+}
+
+.footer hr {
+  opacity: 0.2;
 }

@@ -1,0 +1,75 @@
+<div class="mt-5">
+
+    <div class="card shadow-sm border-0 rounded-4">
+
+        <div class="card-header bg-white border-0">
+            <h4>
+                <i class="fa-solid fa-chart-pie text-danger"></i>
+                Business Summary
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row text-center g-4">
+
+                <div class="col-lg-2 col-md-4 col-6">
+                    <i class="fa-solid fa-house fa-2x text-danger mb-2"></i>
+                    <h4><%= listings.length %></h4>
+                    <small class="text-muted">Listings</small>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6">
+                    <i class="fa-solid fa-calendar-check fa-2x text-success mb-2"></i>
+                    <h4><%= bookings.length %></h4>
+                    <small class="text-muted">Bookings</small>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6">
+                    <i class="fa-solid fa-comments fa-2x text-warning mb-2"></i>
+                    <h4><%= reviews.length %></h4>
+                    <small class="text-muted">Reviews</small>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6">
+                    <i class="fa-solid fa-hourglass-half fa-2x text-primary mb-2"></i>
+                    <h4><%= pendingBookings.length %></h4>
+                    <small class="text-muted">Pending</small>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6">
+                    <i class="fa-solid fa-indian-rupee-sign fa-2x text-success mb-2"></i>
+                    <h4>
+                        ₹<%= bookings.length ? Math.round(revenue/bookings.length).toLocaleString("en-IN") : 0 %>
+                    </h4>
+                    <small class="text-muted">Avg Revenue</small>
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6">
+                    <i class="fa-solid fa-wallet fa-2x text-dark mb-2"></i>
+                    <h4>₹<%= revenue.toLocaleString("en-IN") %></h4>
+                    <small class="text-muted">Total Revenue</small>
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+                <small class="text-muted">
+                    Last Updated :
+                    <%= new Date().toLocaleString() %>
+                </small>
+
+                <small class="text-success">
+                    Dashboard is up to date
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

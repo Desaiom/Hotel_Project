@@ -1,0 +1,104 @@
+<div class="mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h3>
+            <i class="fa-solid fa-hotel text-danger"></i>
+            Your Listings
+        </h3>
+
+        <a href="/listings/new" class="btn btn-danger">
+            <i class="fa-solid fa-plus"></i>
+            Add Listing
+        </a>
+
+    </div>
+
+    <% if(listings.length === 0){ %>
+
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-body text-center py-5">
+
+                <i class="fa-solid fa-house-circle-xmark fa-4x text-secondary mb-3"></i>
+
+                <h4>No Listings Yet</h4>
+
+                <p class="text-muted">
+                    Start hosting by creating your first property.
+                </p>
+
+                <a href="/listings/new" class="btn btn-danger mt-2">
+                    Create Listing
+                </a>
+
+            </div>
+
+        </div>
+
+    <% } else { %>
+
+    <div class="row g-4">
+
+        <% listings.forEach(listing=>{ %>
+
+        <div class="col-lg-4 col-md-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <img
+                    src="<%= listing.images && listing.images.length ? listing.images[0].url : '/images/default.jpg' %>"
+                    class="card-img-top"
+                    style="height:220px;object-fit:cover;">
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="fw-bold">
+                        <%= listing.title %>
+                    </h5>
+
+                    <p class="text-muted mb-2">
+                        <i class="fa-solid fa-location-dot text-danger"></i>
+                        <%= listing.location %>
+                    </p>
+
+                    <h5 class="text-success mb-3">
+                        ₹<%= listing.price.toLocaleString("en-IN") %>
+                        <small class="text-muted fs-6">/ night</small>
+                    </h5>
+
+                    <div class="mt-auto d-flex gap-2">
+
+                        <a
+                            href="/listings/<%= listing._id %>"
+                            class="btn btn-outline-dark flex-fill">
+
+                            <i class="fa-solid fa-eye"></i>
+                            View
+
+                        </a>
+
+                        <a
+                            href="/listings/<%= listing._id %>/edit"
+                            class="btn btn-danger flex-fill">
+
+                            <i class="fa-solid fa-pen"></i>
+                            Edit
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <% }) %>
+
+    </div>
+
+    <% } %>
+
+</div>

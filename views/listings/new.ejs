@@ -39,14 +39,20 @@
         </div>
 
         <div class="mb-3">
-            <label for="image" class="form-label">Upload Hotel Image</label>
-            <input
-              type="file"
-              name="listing[image]"
-              class="form-control"
-              required
-            />
-          </div>
+          <label for="images" class="form-label">Upload Hotel Images</label>
+          <input
+            type="file"
+            id="images"
+            name="listing[images]"
+            class="form-control"
+            multiple
+            accept="image/*"
+            required
+          />
+          <small class="text-muted">
+            Select up to 6 images (JPG, PNG, WEBP).
+          </small>
+        </div>
 
         <div class="row">
           <div class="mb-3 col-md-4">
@@ -86,10 +92,35 @@
           />
           <div class="invalid-feedback">Country name should be valid</div>
         </div>
-
+        <div class="row mt-3" id="previewContainer"></div>
         <button class="btn btn-danger add-btn mt-3">add</button>
         <br /><br />
       </form>
     </div>
   </div>
 </body>
+<script>
+  const input = document.getElementById("images");
+  const preview = document.getElementById("previewContainer");
+
+  input.addEventListener("change", () => {
+    preview.innerHTML = "";
+
+    [...input.files].forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        preview.innerHTML += `
+                <div class="col-md-3 mb-3">
+                    <img
+                        src="${e.target.result}"
+                        class="img-fluid rounded shadow"
+                        style="height:180px;object-fit:cover;width:100%;">
+                </div>
+            `;
+      };
+
+      reader.readAsDataURL(file);
+    });
+  });
+</script>

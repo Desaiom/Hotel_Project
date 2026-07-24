@@ -1,68 +1,110 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="container py-4">
-  <div class="mb-4">
-    <h2 class="fw-bold mb-1">My Bookings</h2>
-    <p class="text-muted mb-0">Track your reservations and payment progress.</p>
-  </div>
+<div class="container mt-4">
 
-  <% if (bookings && bookings.length > 0) { %>
-    <div class="row row-cols-1 row-cols-lg-2 g-4">
-      <% for (let booking of bookings) { %>
-        <div class="col">
-          <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
-            <div class="row g-0 h-100">
-              <div class="col-md-4">
-                <img
-                  src="<%= booking.listing && booking.listing.image && booking.listing.image.url ? booking.listing.image.url : '/images/default-listing.jpg' %>"
-                  class="img-fluid h-100 w-100"
-                  alt="<%= booking.listing ? booking.listing.title : 'Booking hotel' %>"
-                  style="object-fit: cover; min-height: 220px;"
-                />
-              </div>
-              <div class="col-md-8">
-                <div class="card-body d-flex flex-column h-100">
-                  <h5 class="card-title fw-bold mb-2">
-                    <%= booking.listing ? booking.listing.title : 'Hotel' %>
-                  </h5>
-                  <p class="mb-2 text-muted">
-                    <i class="fa-solid fa-calendar-days me-2"></i>
-                    <%= booking.checkIn ? new Date(booking.checkIn).toLocaleDateString('en-IN') : 'N/A' %>
-                    <span class="mx-1">to</span>
-                    <%= booking.checkOut ? new Date(booking.checkOut).toLocaleDateString('en-IN') : 'N/A' %>
-                  </p>
-                  <p class="mb-2">
-                    <i class="fa-solid fa-users me-2"></i>
-                    Guests: <%= booking.guests || 1 %>
-                  </p>
-                  <p class="mb-2 fw-semibold">
-                    <i class="fa-solid fa-indian-rupee-sign me-2"></i>
-                    Amount: <%= booking.totalPrice ? booking.totalPrice.toLocaleString('en-IN') : 0 %>
-                  </p>
-                  <div class="d-flex flex-wrap gap-2 mb-3">
-                    <span class="badge bg-primary-subtle text-primary-emphasis">
-                      Status: <%= booking.status || 'Pending' %>
-                    </span>
-                    <span class="badge bg-secondary-subtle text-secondary-emphasis">
-                      Payment: <%= booking.paymentStatus || 'Pending' %>
-                    </span>
-                  </div>
-                  <div class="mt-auto">
-                    <a href="/bookings/<%= booking._id %>" class="btn btn-outline-dark btn-sm">
-                      <i class="fa-solid fa-eye me-2"></i>View Details
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% } %>
-    </div>
-  <% } else { %>
-    <div class="text-center py-5 border rounded-4 bg-light">
-      <h5 class="fw-semibold">No bookings yet</h5>
-      <p class="text-muted">You have not made any bookings yet.</p>
-    </div>
-  <% } %>
+<h2 class="mb-4">
+My Bookings
+</h2>
+
+<% if(bookings.length===0){ %>
+
+<div class="alert alert-info">
+
+No bookings yet.
+
+</div>
+
+<% } %>
+
+<div class="row">
+
+<% bookings.forEach(booking=>{ %>
+
+<div class="col-md-6 mb-4">
+
+<div class="card shadow-sm">
+
+<img
+src="<%= listing.images && listing.images.length ? listing.images[0].url : '/images/default.jpg' %>"
+class="card-img-top"
+style="height:220px;object-fit:cover;">
+
+<div class="card-body">
+
+<h5><%= booking.listing.title %></h5>
+
+<p>
+
+<%= booking.listing.location %>,
+<%= booking.listing.country %>
+
+</p>
+
+<p>
+
+Check In :
+<b><%= new Date(booking.checkIn).toLocaleDateString() %></b>
+
+</p>
+
+<p>
+
+Check Out :
+<b><%= new Date(booking.checkOut).toLocaleDateString() %></b>
+
+</p>
+
+<p>
+
+Guests :
+<b><%= booking.guests %></b>
+
+</p>
+
+<p>
+
+Total :
+<b>₹ <%= booking.totalPrice %></b>
+
+</p>
+
+<span class="badge bg-success">
+
+<%= booking.paymentStatus %>
+
+</span>
+
+<span class="badge bg-primary">
+
+<%= booking.status %>
+
+</span>
+
+<% if(booking.status==="pending"){ %>
+
+<form
+action="/bookings/<%= booking._id %>/cancel?_method=PUT"
+method="POST"
+class="mt-3">
+
+<button class="btn btn-danger">
+
+Cancel Booking
+
+</button>
+
+</form>
+
+<% } %>
+
+</div>
+
+</div>
+
+</div>
+
+<% }) %>
+
+</div>
+
 </div>

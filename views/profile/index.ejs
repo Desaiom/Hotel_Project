@@ -84,6 +84,9 @@
           <p class="mb-2 opacity-75">
             <i class="fa-solid fa-at me-2"></i><%= user.username %>
           </p>
+          <p class="mb-2 opacity-75">
+            <span class="badge bg-light text-dark text-capitalize"><%= userRole || user.role || "user" %></span>
+          </p>
           <p class="mb-0">
             <%= user.bio ? user.bio : "Tell travelers a little about yourself." %>
           </p>
@@ -107,46 +110,109 @@
           </div>
         </div>
         <div class="col-md-6">
-          <div class="border rounded-4 p-4 h-100">
-            <h5 class="fw-bold mb-3">Quick Statistics</h5>
-            <div class="row g-3">
-              <div class="col-4">
-                <div class="stat-box text-center">
-                  <div class="stat-number"><%= user.listings ? user.listings.length : 0 %></div>
-                  <div class="stat-label">Listings</div>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="stat-box text-center">
-                  <div class="stat-number"><%= user.bookingsMade ? user.bookingsMade.length : 0 %></div>
-                  <div class="stat-label">Bookings</div>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="stat-box text-center">
-                  <div class="stat-number"><%= user.reviews ? user.reviews.length : 0 %></div>
-                  <div class="stat-label">Reviews</div>
-                </div>
-              </div>
+  <div class="border rounded-4 p-4 h-100">
+    <h5 class="fw-bold mb-3">Quick Statistics</h5>
+
+    <% if(user.role === "host"){ %>
+
+      <div class="row g-3">
+
+        <div class="col-6">
+          <div class="stat-box text-center">
+            <div class="stat-number">
+              <%= user.listings ? user.listings.length : 0 %>
             </div>
+            <div class="stat-label">Properties</div>
           </div>
         </div>
+
+        <div class="col-6">
+          <div class="stat-box text-center">
+            <div class="stat-number">
+              <%= user.reviews ? user.reviews.length : 0 %>
+            </div>
+            <div class="stat-label">Reviews</div>
+          </div>
+        </div>
+
       </div>
 
-      <div class="profile-actions d-flex flex-wrap gap-2">
-        <a href="/profile/edit" class="btn btn-outline-dark">
-          <i class="fa-solid fa-pen-to-square me-2"></i>Edit Profile
-        </a>
-        <a href="/profile/listings" class="btn btn-outline-dark">
-          <i class="fa-solid fa-house me-2"></i>My Listings
-        </a>
-        <a href="/profile/bookings" class="btn btn-outline-dark">
-          <i class="fa-solid fa-calendar-check me-2"></i>My Bookings
-        </a>
-        <a href="/profile/reviews" class="btn btn-outline-dark">
-          <i class="fa-solid fa-star me-2"></i>My Reviews
-        </a>
+    <% } else { %>
+
+      <div class="row g-3">
+
+        <div class="col-4">
+          <div class="stat-box text-center">
+            <div class="stat-number">
+                <%= totalBookings %>
+            </div>
+            <div class="stat-label">Bookings</div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="stat-box text-center">
+            <div class="stat-number">
+              <%= user.wishlist ? user.wishlist.length : 0 %>
+            </div>
+            <div class="stat-label">Wishlist</div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="stat-box text-center">
+            <div class="stat-number">
+              <%= totalReviews %>
+            </div>
+            <div class="stat-label">Reviews</div>
+          </div>
+        </div>
+
       </div>
+
+    <% } %>
+
+  </div>
+</div>
+      </div>
+
+     <div class="profile-actions d-flex flex-wrap gap-2">
+
+  <a href="/profile/edit" class="btn btn-outline-dark">
+    <i class="fa-solid fa-pen-to-square me-2"></i>Edit Profile
+  </a>
+
+  <% if(user.role === "host"){ %>
+
+    <a href="/host/dashboard" class="btn btn-outline-dark">
+      <i class="fa-solid fa-chart-line me-2"></i>Dashboard
+    </a>
+
+    <a href="/profile/listings" class="btn btn-outline-dark">
+      <i class="fa-solid fa-house me-2"></i>My Listings
+    </a>
+
+    <a href="/listings/new" class="btn btn-danger">
+      <i class="fa-solid fa-plus me-2"></i>Add Property
+    </a>
+
+  <% } else { %>
+
+    <a href="/bookings" class="btn btn-outline-dark">
+      <i class="fa-solid fa-calendar-check me-2"></i>My Bookings
+    </a>
+
+    <a href="/wishlist" class="btn btn-outline-dark">
+      <i class="fa-regular fa-heart me-2"></i>Wishlist
+    </a>
+
+    <a href="/profile/reviews" class="btn btn-outline-dark">
+      <i class="fa-solid fa-star me-2"></i>My Reviews
+    </a>
+
+  <% } %>
+
+</div>
     </div>
   </div>
 </div>

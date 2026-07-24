@@ -35,9 +35,47 @@
     display: flex;
     align-items: center;
   }
+  .card-hover{
+    transition:.25s;
+    border:none;
+    overflow:hidden;
+    border-radius:18px;
+}
+
+.card-hover:hover{
+    transform:translateY(-5px);
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
+
+.listing-link{
+    text-decoration:none;
+    color:inherit;
+}
+
+.wishlist-icon{
+    position:absolute;
+    top:12px;
+    right:12px;
+    z-index:20;
+}
+
+.wishlist-btn{
+    background:white;
+    border:none;
+    border-radius:50%;
+    width:42px;
+    height:42px;
+    font-size:24px;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,.25);
+}
+
+.wishlist-btn:hover{
+    transform:scale(1.15);
+}
 </style>
 
-<div id="filters">
+<!-- <div id="filters">
   <div class="filter">
     <div><i class="fa-solid fa-fire"></i></div>  
     <p>Trending</p>
@@ -86,36 +124,93 @@
       <label class="form-check-label" for="flexSwitchCheckReverse">Display Total after taxes</label>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="row mt-3">
   <div class="col-lg-3 mb-4">
     <%- include("../includes/filterSidebar.ejs") %>
   </div>
   <div class="col-lg-9">
+    
+     
     <div class="row row-cols-lg-2 row-cols-md-2 row-cols-sm-1">
-      <% for(let listing of allListings){ %>
-      <a href="/listings/<%= listing._id %>" class="listing-link">
-        <div class="card col card-hover mb-3">
-          <img
-            src="<%= listing.image.url %>"
-            class="card-img-top"
-            alt="listing_image"
-            style="height: 18rem"
-          />
-          <div class="card-img-overlay"></div>
-          <div class="card-body">
-            <p class="card-text">
-              <b><%= listing.title %></b> <br />
-              &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
-              <i class="tax-info">&nbsp;  +18% GST</i>
-            </p>
-          </div>
-        </div>
-      </a>
-      <% } %>
-    </div>
 
+<% allListings.forEach(listing => { %>
+
+<div class="col mb-4">
+
+<div class="card card-hover shadow-sm position-relative">
+
+    <% if(currUser){ %>
+
+        <div class="wishlist-icon">
+
+        <% if(wishlistIds.includes(listing._id.toString())){ %>
+
+            <form action="/wishlist/<%= listing._id %>?_method=DELETE" method="POST">
+
+                <button class="wishlist-btn" type="submit">
+                    ❤️
+                </button>
+
+            </form>
+
+        <% } else { %>
+
+            <form action="/wishlist/<%= listing._id %>" method="POST">
+
+                <button class="wishlist-btn" type="submit">
+                    🤍
+                </button>
+
+            </form>
+
+        <% } %>
+
+        </div>
+
+    <% } %>
+
+
+    <a href="/listings/<%= listing._id %>" class="listing-link text-decoration-none text-dark">
+
+    <img
+src="<%= listing.images[0].url.replace('/upload','/upload/w_500,h_350,c_fill') %>"
+class="card-img-top"
+style="height:18rem;object-fit:cover;"
+>
+        <div class="card-body">
+
+            <h5 class="card-title">
+                <%= listing.title %>
+            </h5>
+
+            <p class="mb-1">
+                <%= listing.location %>,
+                <%= listing.country %>
+            </p>
+
+            <p class="fw-bold">
+
+                ₹ <%= listing.price.toLocaleString("en-IN") %>
+
+                <span class="text-muted fw-normal">
+                    / night
+                </span>
+
+            </p>
+
+        </div>
+
+    </a>
+
+</div>
+
+</div>
+
+<% }) %>
+
+</div>
     <% if (typeof totalPages !== "undefined" && totalPages > 1) { %>
     <nav aria-label="Listing pagination" class="mt-4">
       <ul class="pagination justify-content-center">

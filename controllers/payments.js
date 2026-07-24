@@ -1,6 +1,7 @@
 const Booking = require("../models/booking.js");
 const razorpay = require("../config/razorpay.js");
 const crypto = require("crypto");
+const { isAdmin } = require("../utils/roles.js");
 
 module.exports.createOrder = async (req, res, next) => {
   try {
@@ -12,7 +13,7 @@ module.exports.createOrder = async (req, res, next) => {
       return res.redirect("/bookings");
     }
 
-    if (!booking.guest.equals(req.user._id)) {
+    if (!isAdmin(req.user) && !booking.guest.equals(req.user._id)) {
       req.flash("error", "You are not authorized to pay for this booking");
       return res.redirect(`/bookings/${id}`);
     }
@@ -42,6 +43,9 @@ module.exports.createOrder = async (req, res, next) => {
     res.json({
       success: true,
       order,
+      razorpayKey: process.env.RAZORPAY_KEY_ID,
+      userName: req.user.username,
+      userEmail: req.user.email,
     });
   } catch (err) {
     next(err);
@@ -51,7 +55,8 @@ module.exports.createOrder = async (req, res, next) => {
 module.exports.verifyPayment = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+      req.body;
 
     const booking = await Booking.findById(id);
 
@@ -107,7 +112,9 @@ module.exports.webhookHandler = async (req, res, next) => {
     const signature = req.headers["x-razorpay-signature"];
 
     if (!webhookSecret || !signature) {
-      return res.status(400).json({ message: "Missing webhook secret or signature" });
+      return res
+        .status(400)
+        .json({ message: "Missing webhook secret or signature" });
     }
 
     const rawBody =
@@ -115,8 +122,8 @@ module.exports.webhookHandler = async (req, res, next) => {
       (Buffer.isBuffer(req.body)
         ? req.body.toString("utf8")
         : typeof req.body === "string"
-        ? req.body
-        : JSON.stringify(req.body));
+          ? req.body
+          : JSON.stringify(req.body));
 
     const generatedSignature = crypto
       .createHmac("sha256", webhookSecret)
@@ -154,13 +161,18 @@ module.exports.webhookHandler = async (req, res, next) => {
     if (event === "payment.captured") {
       booking.paymentStatus = "paid";
       booking.status = "confirmed";
-      booking.razorpayPaymentId = paymentEntity?.id || booking.razorpayPaymentId;
-      booking.razorpayOrderId = paymentEntity?.order_id || booking.razorpayOrderId;
+      booking.razorpayPaymentId =
+        paymentEntity?.id || booking.razorpayPaymentId;
+      booking.razorpayOrderId =
+        paymentEntity?.order_id || booking.razorpayOrderId;
       booking.paymentCapturedAt = paymentEntity?.created_at
         ? new Date(paymentEntity.created_at * 1000)
         : new Date();
       await booking.save();
-      console.log("Booking updated for payment.captured", booking._id.toString());
+      console.log(
+        "Booking updated for payment.captured",
+        booking._id.toString(),
+      );
     }
 
     if (event === "payment.failed") {
