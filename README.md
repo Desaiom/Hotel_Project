@@ -1,22 +1,10 @@
 # 🌍 Wanderlust – Hotel Booking & Property Listing Platform
 
-A full-stack hotel booking and property listing web application inspired by Airbnb. Wanderlust allows users to discover hotels, list their own properties, book stays, manage bookings, leave reviews, and maintain wishlists.
+A full-stack hotel booking and property listing web application . Wanderlust allows users to discover hotels, list their own properties, book stays, manage bookings, leave reviews, and maintain wishlists.
 
 ---
 
-## 🚀 Live Demo
 
-> **Live URL:** *(Add your deployed link here)*
-
----
-
-## 📸 Screenshots
-
-| Home | Property Details | Booking |
-|------|------------------|----------|
-| Add Screenshot | Add Screenshot | Add Screenshot |
-
----
 
 # ✨ Features
 
